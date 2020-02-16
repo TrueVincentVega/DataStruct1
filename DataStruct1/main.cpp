@@ -1,8 +1,5 @@
 #include<iostream>
 
-#define RANGE_BASED_FOR
-
-
 template<typename T>
 class ForwardList
 {
@@ -25,12 +22,17 @@ class ForwardList
 			this->Data = Data;
 			this->pNext = pNext;
 			count++;
+#ifdef DEBUG_1
 			std::cout << "EConstructor:\t" << this << std::endl;
+#endif // DEBUG_1
+
 		}
 		~Element()
 		{
 			count--;
+#ifdef DEBUG_1
 			std::cout << "EDestructor:\t" << this << std::endl;
+#endif // DEBUG_1
 		}
 		friend class ForwardList;
 	};
@@ -355,6 +357,10 @@ void print(int arr[])
 	std::cout << std::endl;*/
 }
 
+//#define RANGE_BASED_FOR
+//#define PREFORMANCE_ARR
+#define PREFORMANCE_LIST
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -450,7 +456,54 @@ void main()
 		std::cout << i << "\t";
 	}
 	std::cout << std::endl;
-#endif
+#endif //RANGE_BASED_FOR
 
+#ifdef PREFORMANCE_ARR
+	//int n;
+	std::cout << "Input size: "; std::cin >> n;
+	int* arr = new int[n] {};
+	std::cout << "Memory allocated." << std::endl;
+	std::cout << "Loading data....." << std::endl;
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = rand();
+	}
+	std::cout << "Data loaded." << std::endl;
+	std::cout << "-----------------------------" << std::endl;
+	for (int i = 0; i < n; i++)
+	{
+		//std::cout << arr[i] << "\t";
+	}
+	std::cout << std::endl;
+	std::cout << "\n\n\nData usage...\n\n\n" << std::endl;
+	std::cout << "-----------------------------" << std::endl;
+	std::cout << "Releasing memory........." << std::endl;
+	delete[] arr;
+	std::cout << "Memory released." << std::endl;
+
+#endif //PREFORMANCE_ARR
+
+#ifdef PREFORMANCE_LIST
+	std::cout << "Input size: "; std::cin >> n;
+	ForwardList<int> list(n);
+	std::cout << "Memory allocated." << std::endl;
+	std::cout << "Loading data....." << std::endl;
+	for (int i = 0; i < n; i++)
+	{
+		list[i] = rand();
+	}
+	std::cout << "Data loaded." << std::endl;
+	std::cout << "-----------------------------" << std::endl;
+	for (int i = 0; i < n; i++)
+	{
+		//std::cout << arr[i] << "\t";
+	}
+	std::cout << std::endl;
+	std::cout << "\n\n\nData usage...\n\n\n" << std::endl;
+	std::cout << "-----------------------------" << std::endl;
+	std::cout << "Releasing memory........." << std::endl;
+	list.~ForwardList();
+	std::cout << "Memory released." << std::endl;
+#endif //PREFORMANCE_LIST
 
 }
