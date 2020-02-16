@@ -1,14 +1,18 @@
 #include<iostream>
 
+#define RANGE_BASED_FOR
+
+
+template<typename T>
 class ForwardList
 {
 	class Element
 	{
-		int Data;
+		T Data;
 		Element* pNext;
 		static int count;
 	public:
-		const int getData()const
+		const T getData()const
 		{
 			return this->Data;
 		}
@@ -16,7 +20,7 @@ class ForwardList
 		{
 			return this->pNext;
 		}
-		Element(int Data, Element* pNext = nullptr)
+		Element(T Data, Element* pNext = nullptr)
 		{
 			this->Data = Data;
 			this->pNext = pNext;
@@ -61,11 +65,11 @@ public:
 
 		}
 
-		const int& operator*() const
+		const T& operator*() const
 		{
 			return Temp->Data;
 		}
-		int& operator*()
+		T& operator*()
 		{
 			return Temp->Data;
 		}
@@ -93,6 +97,7 @@ public:
 			return this->Temp != other.Temp;
 		}
 	};
+
 	/*const Element* getHead()const
 	{
 	return this->Head;
@@ -124,10 +129,10 @@ public:
 		while (size--)push_front(0);
 		std::cout << "LConstructor:\t" << this << std::endl;
 	}
-	ForwardList(std::initializer_list<int> il) :ForwardList()
+	ForwardList(std::initializer_list<T> il) :ForwardList()
 	{
 		std::cout << typeid(il.begin()).name() << std::endl;
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 		{
 			push_back(*it);
 		}
@@ -159,7 +164,7 @@ public:
 
 	// Operators:
 
-	ForwardList& operator=(const ForwardList& other)
+	ForwardList<T>& operator=(const ForwardList<T>& other)
 	{
 		if (this == &other)return *this;
 		while (Head)pop_front();
@@ -167,7 +172,7 @@ public:
 		std::cout << "CopyAssignment:\t" << this << std::endl;
 		return *this;
 	}
-	ForwardList& operator=(ForwardList&& other)
+	ForwardList<T>& operator=(ForwardList<T>&& other)
 	{
 		this->size = other.size;
 		this->Head = other.Head;
@@ -176,7 +181,7 @@ public:
 		return *this;
 	}
 
-	int& operator[](int index)
+	T& operator[](int index)
 	{
 		Element* Temp = Head;
 		for (int i = 0; i < index; i++)Temp = Temp->pNext;
@@ -184,14 +189,14 @@ public:
 	}
 
 	// Methods:
-	void push_front(int Data)
+	void push_front(T Data)
 	{
 		Element* New = new Element(Data);
 		New->pNext = Head;
 		Head = New;
 		size++;
 	}
-	void push_back(int Data)
+	void push_back(T Data)
 	{
 		if (Head == nullptr)
 		{
@@ -207,7 +212,7 @@ public:
 		Temp->pNext = New;
 		size++;
 	}
-	void insert(int Index, int Data)
+	void insert(int Index, T Data)
 	{
 		if (Index == 0)
 		{
@@ -315,15 +320,17 @@ public:
 	friend ForwardList operator+(const ForwardList& left, const ForwardList& right);
 };
 
-int ForwardList::Element::count = 0;
+template<typename T>
+int ForwardList<T>::Element::count = 0;
 
-ForwardList operator+(const ForwardList& left, const ForwardList& right)
+template<typename T>
+ForwardList<T> operator+(const ForwardList<T>& left, const ForwardList<T>& right)
 {
-	ForwardList cat = left;
-	for (const ForwardList::Element* Temp = right.Head; Temp; Temp = Temp->getNext())
+	ForwardList<T> cat = left;
+	/*for (const ForwardList::Element* Temp = right.Head; Temp; Temp = Temp->getNext())
 	{
 		cat.push_back(Temp->getData());
-	}
+	}*/
 	std::cout << "Global operator +" << std::endl;
 	return cat;
 }
@@ -429,16 +436,21 @@ void main()
 
 	print(arr);*/
 
-	ForwardList list = { 3, 5, 8, 13, 21 };
+#ifdef RANGE_BASED_FOR
+	//ForwardList<int> list = { 3, 5, 8, 13, 21 };
+	ForwardList<double> list = { 2.7, 3.14, 5.4, 8.3 };
 	//list.print();
-	for (ForwardList::Iterator it = list.begin(); it != list.end(); it++)
+	for (ForwardList<double>::Iterator it = list.begin(); it != list.end(); it++)
 	{
 		std::cout << *it << "\t";
 	}
 	std::cout << std::endl;
-	/*for (int i : list)
+	for (double i : list)
 	{
 		std::cout << i << "\t";
 	}
-	std::cout << std::endl;*/
+	std::cout << std::endl;
+#endif
+
+
 }
