@@ -6,14 +6,14 @@
 #define RANGE_BASED_FOR
 //#define PREFORMANCE_ARR
 //#define PREFORMANCE_LIST	ForwardList fl;
-	for (int i = 0; i < n; i++)
+	//for (int i = 0; i < n; i++)
 
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
-	int n;
+	//int n;
 	//std::cout << "Input list size: "; std::cin >> n;
 #ifdef BASE_CHECK
 	{
